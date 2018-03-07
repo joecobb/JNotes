@@ -16,17 +16,28 @@ public class Note extends RealmObject{
     private String title;
     private String content;
     private String dateCreated;
+    private Boolean isFavorite;
 
     public Note(String title, String content, String dateCreated) {
         this.title = title;
         this.content = content;
         this.dateCreated = dateCreated;
+        this.isFavorite = false;
     }
     public Note(){
         Date date = new Date();
         android.text.format.DateFormat df = new android.text.format.DateFormat();
 //        this.dateCreated = String.valueOf(df.format("mmm d, yyyy  MM:HH", date));
         this.dateCreated= DateFormat.getDateTimeInstance().format(date);
+        this.isFavorite = false;
+    }
+
+    public Boolean isFavorite() {
+        return isFavorite;
+    }
+
+    public void setFavorite(Boolean favorite) {
+        isFavorite = favorite;
     }
 
     public String getId() {

@@ -7,10 +7,14 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
+import apps.joe.com.jnotes.EditNoteActivity;
 import apps.joe.com.jnotes.NoteDetailActivity;
 import apps.joe.com.jnotes.R;
 import apps.joe.com.jnotes.models.Note;
@@ -28,6 +32,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
         public TextView title, date, content;
         public CardView cardView;
         public ImageView btnDelete;
+        public CheckBox fav;
 
         public MyViewHolder(View view) {
             super(view);
@@ -36,6 +41,8 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
             btnDelete = view.findViewById(R.id.btn_delete);
             content = view.findViewById(R.id.content);
             date = view.findViewById(R.id.date);
+            fav = view.findViewById(R.id.star);
+
         }
     }
 
@@ -57,6 +64,9 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Note note = notesList.get(position);
         final Realm mRealm = Realm.getDefaultInstance();
+        if(note.isFavorite()){
+            holder.fav.setChecked(true);
+        }
         if(note.getTitle().length()>30) {
             holder.title.setText(note.getTitle().substring(0,30)+"...");
         }else{
@@ -67,7 +77,37 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
         }else{
             holder.content.setText(note.getContent());
         }
+        holder.fav.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, final boolean b) {
 
+
+                    mRealm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            try {
+
+                                if (b) {
+                                    note.setFavorite(true);
+                                } else {
+                                    note.setFavorite(false);
+                                }
+                                realm.copyToRealmOrUpdate(note);
+                                notifyItemChanged(position,note);
+                            }catch(Exception ex){
+                                new MaterialDialog.Builder(context)
+                                        .title("Oops")
+                                        .content("Something went wrong, please try again")
+                                        .positiveText("ok")
+                                        .show();
+                            }
+
+
+                        }
+                    });
+
+            }
+        });
         holder.date.setText(note.getDateCreated());
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,6 +118,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
                         notesList.remove(note);
                         note.deleteFromRealm();
                         notifyItemRemoved(position);
+                        notifyItemRangeChanged(position,notesList.size());
                     }
                 });
             }
@@ -114,4 +155,6 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
     public int getItemCount() {
         return notesList.size();
     }
+
+
 }

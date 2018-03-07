@@ -31,6 +31,8 @@ public class NoteDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_note_detail);
         //creating handles to views
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         title = findViewById(R.id.title);
         content = findViewById(R.id.content);
         btnEdit = findViewById(R.id.btn_edit);
@@ -89,9 +91,10 @@ public class NoteDetailActivity extends AppCompatActivity {
                         .show();
             }
         }
-
-
-
-
+    }
+    @Override
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
     }
 }

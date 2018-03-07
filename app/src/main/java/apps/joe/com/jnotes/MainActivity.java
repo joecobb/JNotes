@@ -7,7 +7,22 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
+
+import com.mikepenz.google_material_typeface_library.GoogleMaterial;
+import com.mikepenz.materialdrawer.AccountHeader;
+import com.mikepenz.materialdrawer.AccountHeaderBuilder;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.Nameable;
 
 import apps.joe.com.jnotes.adapters.NotesListAdapter;
 import apps.joe.com.jnotes.models.Note;
@@ -23,16 +38,19 @@ public class MainActivity extends AppCompatActivity {
     private Realm realm;
     private NotesListAdapter mAdapter;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         realm = Realm.getDefaultInstance();
+
         fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this,AddNoteActivity.class));
+                finish();
             }
         });
         recyclerView = findViewById(R.id.recyclerView);
@@ -45,18 +63,30 @@ public class MainActivity extends AppCompatActivity {
         prepareNotesData();
     }
 
+
+
     private void prepareNotesData() {
         notesList.clear();
         notesList.addAll(realm.where(Note.class).findAll());
         mAdapter.notifyDataSetChanged();
-//        notesList.addChangeListener(new RealmChangeListener<RealmList<Note>>() {
+        Log.d("hmm",notesList.size()+"");
+//         notesList.addChangeListener(new RealmChangeListener<RealmList<Note>>() {
 //            @Override
 //            public void onChange(RealmList<Note> notes) {
-//                if(notesList.size()>notes.size()){
+//                try {
+//
+//
+//                if(notesList.size()<notes.size()){
+//                    notesList.clear();
+//                    notesList.addAll(realm.where(Note.class).findAll());
 //                    mAdapter.notifyDataSetChanged();
+//                }
+//                }catch (Exception ex){
+//                    ex.printStackTrace();
 //                }
 //            }
 //        });
 
     }
+
 }
