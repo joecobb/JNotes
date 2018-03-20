@@ -1,22 +1,17 @@
 package apps.joe.com.jnotes;
 
 import android.content.Intent;
-import android.support.annotation.NonNull;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.Html;
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import apps.joe.com.jnotes.models.Note;
 import io.realm.Realm;
 import io.realm.RealmChangeListener;
-import io.realm.RealmModel;
 
 public class NoteDetailActivity extends AppCompatActivity {
     String id;
@@ -64,17 +59,17 @@ public class NoteDetailActivity extends AppCompatActivity {
             if(note != null) {
                 title.setText(note.getTitle());
                 content.setText(note.getContent());
-
+                getSupportActionBar().setTitle("Note Details");
                 btnShare.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Intent shareIntent = new Intent(Intent.ACTION_SEND);
                         shareIntent.setType("text/plain");
-                        shareIntent.putExtra(Intent.EXTRA_TEXT, "*Shared via JNotes* "+"\n\n"+"http://www.apps/playstore.com"+"\n\n"+note.getTitle()+"\n\n"+note.getContent()+"\n\n");
+                        shareIntent.putExtra(Intent.EXTRA_TEXT, "Shared via JNotes"+"\n"+note.getTitle()+"\n"+note.getContent()+"\n\n");
                         startActivity(Intent.createChooser(shareIntent, "Share note using"));
                     }
                 });
-
+//                "\n\n"+"http://www.apps/playstore.com"+
                 btnEdit.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -94,7 +89,7 @@ public class NoteDetailActivity extends AppCompatActivity {
     }
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        super.onBackPressed();
         return true;
     }
 }

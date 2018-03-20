@@ -1,8 +1,7 @@
 package apps.joe.com.jnotes;
 
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +10,6 @@ import com.afollestad.materialdialogs.MaterialDialog;
 
 import apps.joe.com.jnotes.models.Note;
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 
 public class EditNoteActivity extends AppCompatActivity {
     Button btnSave;
@@ -26,6 +24,7 @@ public class EditNoteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_note);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setTitle("Edit Note");
         btnSave = findViewById(R.id.btn_save);
         etTitle = findViewById(R.id.title);
         etContent = findViewById(R.id.content);

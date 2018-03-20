@@ -3,15 +3,41 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:fitsSystemWindows="true"
     android:layout_height="match_parent"
     tools:context="apps.joe.com.jnotes.MainActivity">
 
-   <android.support.v7.widget.RecyclerView
+
+   <FrameLayout
+       android:id="@+id/toolbar_container"
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content">
+
+      <android.support.v7.widget.Toolbar
+          android:id="@+id/toolbar"
+          android:minHeight="?attr/actionBarSize"
+          android:theme="@style/toolbarColors"
+          android:layout_width="match_parent"
+          app:title="JNotes"
+          android:layout_height="wrap_content"
+          app:titleTextColor="@android:color/white"
+          app:subtitleTextColor="@android:color/white"
+          android:background="?attr/colorPrimary">
+
+      </android.support.v7.widget.Toolbar>
+
+      <com.miguelcatalan.materialsearchview.MaterialSearchView
+          android:id="@+id/search_view"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content" />
+   </FrameLayout>
+   <apps.joe.com.jnotes.EmptyRecyclerView
+       android:layout_marginTop="?attr/actionBarSize"
        android:id="@+id/recyclerView"
        android:layout_width="match_parent"
        android:layout_height="match_parent">
 
-   </android.support.v7.widget.RecyclerView>
+   </apps.joe.com.jnotes.EmptyRecyclerView>
 
    <android.support.design.widget.FloatingActionButton
        android:id="@+id/fab"
@@ -24,4 +50,31 @@
        android:contextClickable="true"
        android:layout_marginRight="8dp" />
 
+   <LinearLayout
+       android:id="@+id/nonote"
+       android:layout_width="match_parent"
+       android:layout_height="match_parent"
+       android:gravity="center"
+       android:visibility="gone"
+       android:orientation="vertical"
+       >
+      <ImageView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:src="@drawable/ic_tag_faces_black_24dp"
+          />
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:textSize="20sp"
+          android:text="Welcome to JNotes"
+          />
+      <TextView
+          android:layout_width="wrap_content"
+          android:layout_height="wrap_content"
+          android:text="You have not created any notes yet"
+          />
+
+
+   </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -26,7 +26,7 @@ public class AddNoteActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-
+        getSupportActionBar().setTitle("Add Note");
         etTitle = findViewById(R.id.title);
         etContent = findViewById(R.id.content);
         btnAdd = findViewById(R.id.btn_add);
@@ -36,7 +36,6 @@ public class AddNoteActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(etTitle.getText().toString().isEmpty() || etContent.getText().toString().isEmpty()){
                     new MaterialDialog.Builder(AddNoteActivity.this)
-                            .theme(Theme.DARK)
                             .title("Notice")
                             .content("Please enter title and content")
                             .positiveText("ok")

@@ -1,0 +1,30 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--<item-->
+        <!--android:id="@+id/miSearch"-->
+        <!--android:icon="@drawable/ic_search_black_24dp"-->
+        <!--app:showAsAction="ifRoom|withText"-->
+        <!--android:title="Developer information">-->
+    <!--</item>-->
+    <item
+        android:id="@+id/miFav"
+        android:icon="@drawable/ic_star"
+        app:showAsAction="ifRoom|collapseActionView"
+        android:title="Favorites">
+    </item>
+    <item
+        android:id="@+id/miDeveloper"
+        android:icon="@drawable/ic_info_black_24dp"
+        app:showAsAction="ifRoom"
+        android:title="Developer information">
+    </item>
+    <item
+        android:id="@+id/action_search"
+        android:icon="@drawable/ic_action_action_search"
+        android:orderInCategory="100"
+        android:title="@string/abc_search_hint"
+        app:showAsAction="always" />
+
+
+</menu>

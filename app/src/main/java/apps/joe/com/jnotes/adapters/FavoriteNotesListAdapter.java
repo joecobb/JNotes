@@ -1,5 +1,9 @@
 package apps.joe.com.jnotes.adapters;
 
+/**
+ * Created by APPUSER1 on 16/03/2018.
+ */
+
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -12,12 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.afollestad.materialdialogs.MaterialDialog;
 
 import apps.joe.com.jnotes.NoteDetailActivity;
 import apps.joe.com.jnotes.R;
@@ -26,7 +26,7 @@ import io.realm.Realm;
 import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 
-public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyViewHolder> {
+public class FavoriteNotesListAdapter extends RecyclerView.Adapter<FavoriteNotesListAdapter.MyViewHolder> {
 
 
     private RealmList<Note> notesList;
@@ -34,7 +34,6 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
     private AppCompatActivity activity;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-
         public TextView title, date, content;
         public CardView cardView;
         public ImageView btnDelete;
@@ -48,13 +47,11 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
             content = view.findViewById(R.id.content);
             date = view.findViewById(R.id.date);
             fav = view.findViewById(R.id.star);
-
-
         }
     }
 
 
-    public NotesListAdapter(final RealmList<Note> notesList, Context ctx, AppCompatActivity activity) {
+    public FavoriteNotesListAdapter(final RealmList<Note> notesList, Context ctx, AppCompatActivity activity) {
         this.notesList = notesList;
         this.context = ctx;
         this.activity = activity;
@@ -72,9 +69,10 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Note note = notesList.get(position);
         final Realm mRealm = Realm.getDefaultInstance();
-        if(note.isFavorite()){
-            holder.fav.setChecked(true);
-        }
+        holder.fav.setVisibility(View.GONE);
+//        if(note.isFavorite()){
+//            holder.fav.setChecked(true);
+//        }
         if(note.getTitle().length()>30) {
             holder.title.setText(note.getTitle().substring(0,30)+"...");
         }else{
@@ -85,37 +83,6 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
         }else{
             holder.content.setText(note.getContent());
         }
-        holder.fav.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, final boolean b) {
-
-
-                    mRealm.executeTransaction(new Realm.Transaction() {
-                        @Override
-                        public void execute(Realm realm) {
-                            try {
-
-                                if (b) {
-                                    note.setFavorite(true);
-                                } else {
-                                    note.setFavorite(false);
-                                }
-                                realm.copyToRealmOrUpdate(note);
-                                notifyItemChanged(position,note);
-                            }catch(Exception ex){
-                                new MaterialDialog.Builder(context)
-                                        .title("Oops")
-                                        .content("Something went wrong, please try again")
-                                        .positiveText("ok")
-                                        .show();
-                            }
-
-
-                        }
-                    });
-
-            }
-        });
         holder.date.setText(note.getDateCreated());
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,9 +137,7 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
 
     @Override
     public int getItemCount() {
-
         return notesList.size();
-
     }
 
 
