@@ -3,6 +3,7 @@ package apps.joe.com.jnotes.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
@@ -17,8 +18,10 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import apps.joe.com.jnotes.AddNoteActivity;
 import apps.joe.com.jnotes.NoteDetailActivity;
 import apps.joe.com.jnotes.R;
 import apps.joe.com.jnotes.models.Note;
@@ -120,15 +123,26 @@ public class NotesListAdapter extends RecyclerView.Adapter<NotesListAdapter.MyVi
         holder.btnDelete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mRealm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        notesList.remove(note);
-                        note.deleteFromRealm();
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position,notesList.size());
-                    }
-                });
+                new MaterialDialog.Builder(activity)
+                        .title("Warning")
+                        .content("Are you sure you want to delete note?")
+                        .positiveText("Yes")
+                        .negativeText("No")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                mRealm.executeTransaction(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        notesList.remove(note);
+                                        note.deleteFromRealm();
+                                        notifyItemRemoved(position);
+                                        notifyItemRangeChanged(position,notesList.size());
+                                    }
+                                });
+                            }
+                        })
+                        .show();
             }
         });
         holder.cardView.setOnClickListener(new View.OnClickListener() {
