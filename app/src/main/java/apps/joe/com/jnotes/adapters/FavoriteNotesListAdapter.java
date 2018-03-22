@@ -6,9 +6,6 @@ package apps.joe.com.jnotes.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
-import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -19,7 +16,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import apps.joe.com.jnotes.NoteDetailActivity;
+import apps.joe.com.jnotes.EditNoteActivity;
 import apps.joe.com.jnotes.R;
 import apps.joe.com.jnotes.models.Note;
 import io.realm.Realm;
@@ -70,9 +67,7 @@ public class FavoriteNotesListAdapter extends RecyclerView.Adapter<FavoriteNotes
         final Note note = notesList.get(position);
         final Realm mRealm = Realm.getDefaultInstance();
         holder.fav.setVisibility(View.GONE);
-//        if(note.isFavorite()){
-//            holder.fav.setChecked(true);
-//        }
+
         if(note.getTitle().length()>30) {
             holder.title.setText(note.getTitle().substring(0,30)+"...");
         }else{
@@ -101,16 +96,7 @@ public class FavoriteNotesListAdapter extends RecyclerView.Adapter<FavoriteNotes
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-
-                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
-                    Pair<View, String> p1 = Pair.create((View)holder.cardView, "card");
-                    ActivityOptionsCompat options = ActivityOptionsCompat.
-                            makeSceneTransitionAnimation(activity,p1);
-                    activity.startActivity(new Intent(context, NoteDetailActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("id",note.getId()), options.toBundle());
-                }else {
-                    context.startActivity(new Intent(context, NoteDetailActivity.class).putExtra("id", note.getId()));
-                }
+                    context.startActivity(new Intent(context, EditNoteActivity.class).putExtra("id", note.getId()));
             }
         });
         note.addChangeListener(new RealmChangeListener<Note>() {

@@ -137,37 +137,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_main, menu);
-
-//        mBackup = menu.findItem(R.id.backup);
-//        mBackup.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem menuItem) {
-////                DateFormat dateFormatter = new SimpleDateFormat("yyyyMMddhhmmss");
-////                dateFormatter.setLenient(false);
-////                Date today = new Date();
-////                String datetime = dateFormatter.format(today);
-////                String filename = "backup"+datetime;
-////                Realm orgRealm = Realm.getDefaultInstance();
-////                File destination = new File(getFilesDir(), filename);
-////                orgRealm.writeCopyTo(destination);
-////                new MaterialDialog.Builder(MainActivity.this)
-////                        .title("Notice")
-////                        .content("Successfully backed up data here:\n"+ destination)
-////                        .positiveText("ok")
-////                        .show();
-////                orgRealm.close();
-//                backup();
-//                return true;
-//            }
-//        });
-//        mRestore = menu.findItem(R.id.restore);
-//        mRestore.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-//            @Override
-//            public boolean onMenuItemClick(MenuItem menuItem) {
-//
-//                return true;
-//            }
-//        });
         mFav = menu.findItem(R.id.miFav);
         mFav.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override

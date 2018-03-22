@@ -3,6 +3,8 @@ package apps.joe.com.jnotes;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,9 +18,11 @@ import apps.joe.com.jnotes.models.Note;
 import io.realm.Realm;
 
 public class AddNoteActivity extends AppCompatActivity {
-    Button btnAdd;
+
     EditText etTitle,etContent;
     Realm realm;
+    private MenuItem mSave;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,11 +33,29 @@ public class AddNoteActivity extends AppCompatActivity {
         getSupportActionBar().setTitle("Add Note");
         etTitle = findViewById(R.id.title);
         etContent = findViewById(R.id.content);
-        btnAdd = findViewById(R.id.btn_add);
         realm = Realm.getDefaultInstance();
-        btnAdd.setOnClickListener(new View.OnClickListener() {
+    }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(AddNoteActivity.this,MainActivity.class));
+        finish();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        startActivity(new Intent(AddNoteActivity.this,MainActivity.class));
+        finish();
+        return true;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.add_menu, menu);
+        mSave = menu.findItem(R.id.miSave);
+        mSave.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public void onClick(View view) {
+            public boolean onMenuItemClick(MenuItem menuItem) {
                 if(etTitle.getText().toString().isEmpty() || etContent.getText().toString().isEmpty()){
                     new MaterialDialog.Builder(AddNoteActivity.this)
                             .title("Notice")
@@ -51,21 +73,12 @@ public class AddNoteActivity extends AppCompatActivity {
                     startActivity(new Intent(AddNoteActivity.this,MainActivity.class));
                     finish();
                 }
+                return true;
             }
         });
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        startActivity(new Intent(AddNoteActivity.this,MainActivity.class));
-        finish();
-    }
-
-    @Override
-    public boolean onSupportNavigateUp() {
-        startActivity(new Intent(AddNoteActivity.this,MainActivity.class));
-        finish();
         return true;
+
     }
+
+
 }
