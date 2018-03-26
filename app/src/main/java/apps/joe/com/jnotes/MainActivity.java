@@ -24,7 +24,9 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import apps.joe.com.jnotes.adapters.NotesListAdapter;
 import apps.joe.com.jnotes.models.Note;
@@ -33,7 +35,7 @@ import io.realm.Realm;
 import io.realm.RealmList;
 
 public class MainActivity extends AppCompatActivity {
-    private MenuItem mSearchItem;
+
     private FloatingActionButton fab;
     private EmptyRecyclerView recyclerView;
     private RealmList<Note> notesList = new RealmList<>();
@@ -63,7 +65,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(MainActivity.this,AddNoteActivity.class));
-                finish();
             }
         });
         recyclerView = findViewById(R.id.recyclerView);
@@ -163,10 +164,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        Realm mRealm = Realm.getDefaultInstance();
-        if(mRealm.where(Note.class).findAll().size()<notesList.size()){
             prepareNotesData();
-        }
     }
     @Override
     public void onBackPressed() {

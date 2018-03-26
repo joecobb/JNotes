@@ -1,44 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_height="match_parent"
-    tools:context="apps.joe.com.jnotes.EditNoteActivity">
+    tools:context=".EditNoteActivity">
+
 
     <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
         android:layout_margin="8dp"
-        android:padding="8dp"
-        android:layout_height="wrap_content">
-        <EditText
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:background="#00ffffff"
-            android:id="@+id/title"
-            android:hint="Enter title here" />
-    </android.support.v7.widget.CardView>
-
-
-    <android.support.v7.widget.CardView
-        android:layout_marginLeft="8dp"
-        android:layout_marginRight="8dp"
-        android:layout_marginBottom="8dp"
-        android:layout_weight="1"
+        android:transitionName="card"
         android:layout_width="match_parent"
-        android:layout_height="0dp">
-
-        <EditText
-            android:id="@+id/content"
-            android:padding="8dp"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="top"
-            android:background="#00ffffff"
-            android:hint="Enter content here ..."
-            />
+            android:layout_height="match_parent">
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:textSize="20sp"
+                android:textColorHint="#88000000"
+                android:textStyle="bold"
+                android:background="#00ffffff"
+                android:id="@+id/title"
+                android:hint="Enter title here" />
+            <EditText
+                android:id="@+id/content"
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:background="#00ffffff"
+                android:hint="Enter content here"
+                />
+
+        </LinearLayout>
 
     </android.support.v7.widget.CardView>
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

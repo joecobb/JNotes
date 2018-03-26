@@ -47,7 +47,7 @@ public class FavouritesActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        onBackPressed();
+        super.onBackPressed();
         return true;
     }
     private void prepareNotesData() {
@@ -55,5 +55,16 @@ public class FavouritesActivity extends AppCompatActivity {
         notesList.addAll(realm.where(Note.class).equalTo("isFavorite",true).findAll());
         mAdapter.notifyDataSetChanged();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        prepareNotesData();
     }
 }

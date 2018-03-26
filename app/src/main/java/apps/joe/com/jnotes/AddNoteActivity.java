@@ -1,16 +1,12 @@
 package apps.joe.com.jnotes;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 
 import com.afollestad.materialdialogs.MaterialDialog;
-import com.afollestad.materialdialogs.Theme;
 
 import java.util.UUID;
 
@@ -23,11 +19,11 @@ public class AddNoteActivity extends AppCompatActivity {
     Realm realm;
     private MenuItem mSave;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_note);
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         getSupportActionBar().setTitle("Add Note");
@@ -38,14 +34,12 @@ public class AddNoteActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(AddNoteActivity.this,MainActivity.class));
-        finish();
+        super.onBackPressed();
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        startActivity(new Intent(AddNoteActivity.this,MainActivity.class));
-        finish();
+        super.onBackPressed();
         return true;
     }
 
@@ -70,7 +64,6 @@ public class AddNoteActivity extends AppCompatActivity {
                     realm.beginTransaction();
                     realm.copyToRealmOrUpdate(note);
                     realm.commitTransaction();
-                    startActivity(new Intent(AddNoteActivity.this,MainActivity.class));
                     finish();
                 }
                 return true;

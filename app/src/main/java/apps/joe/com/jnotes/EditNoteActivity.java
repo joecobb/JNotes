@@ -2,6 +2,7 @@ package apps.joe.com.jnotes;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.afollestad.materialdialogs.DialogAction;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import apps.joe.com.jnotes.models.Note;
@@ -21,6 +23,8 @@ public class EditNoteActivity extends AppCompatActivity {
     private Note note;
     private MenuItem mSave;
     private MenuItem mShare;
+    private MenuItem mDelete;
+    private MenuItem mFav;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,13 +58,63 @@ public class EditNoteActivity extends AppCompatActivity {
 
     @Override
     public boolean onSupportNavigateUp() {
-        finish();
+        super.onBackPressed();
         return true;
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.edit_menu, menu);
         mSave = menu.findItem(R.id.miSave);
+        mDelete = menu.findItem(R.id.miDelete);
+        mDelete.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                new MaterialDialog.Builder(EditNoteActivity.this)
+                        .title("Warning")
+                        .content("Are you sure you want to delete note?")
+                        .positiveText("Yes")
+                        .negativeText("No")
+                        .onPositive(new MaterialDialog.SingleButtonCallback() {
+                            @Override
+                            public void onClick(@NonNull MaterialDialog dialog, @NonNull DialogAction which) {
+                                realm.executeTransaction(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        note.deleteFromRealm();
+                                        finish();
+                                    }
+                                });
+                            }
+                        })
+                        .show();
+                return true;
+            }
+        });
+        mFav = menu.findItem(R.id.miFav);
+        if(note.isFavorite()){
+            mFav.setIcon(R.drawable.ic_favorite);
+        }
+        mFav.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+
+                    realm.executeTransaction(new Realm.Transaction() {
+                        @Override
+                        public void execute(Realm realm) {
+                            if(note.isFavorite()) {
+                                note.setFavorite(false);
+                                mFav.setIcon(R.drawable.ic_favorite_border);
+                            }else{
+                                note.setFavorite(true);
+                                mFav.setIcon(R.drawable.ic_favorite);
+                            }
+                            realm.copyToRealmOrUpdate(note);
+                        }
+                    });
+
+                return true;
+            }
+        });
         mShare = menu.findItem(R.id.miShare);
         mSave.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -71,7 +125,7 @@ public class EditNoteActivity extends AppCompatActivity {
                         note.setTitle(etTitle.getText().toString());
                         note.setContent(etContent.getText().toString());
                         realm.copyToRealmOrUpdate(note);
-                        finish();
+                        EditNoteActivity.super.onBackPressed();
                     }
                 });
                 return true;
@@ -92,4 +146,8 @@ public class EditNoteActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }

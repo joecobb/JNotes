@@ -6,6 +6,9 @@ package apps.joe.com.jnotes.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -40,10 +43,8 @@ public class FavoriteNotesListAdapter extends RecyclerView.Adapter<FavoriteNotes
             super(view);
             cardView = view.findViewById(R.id.card_view);
             title = view.findViewById(R.id.title);
-            btnDelete = view.findViewById(R.id.btn_delete);
             content = view.findViewById(R.id.content);
             date = view.findViewById(R.id.date);
-            fav = view.findViewById(R.id.star);
         }
     }
 
@@ -66,7 +67,7 @@ public class FavoriteNotesListAdapter extends RecyclerView.Adapter<FavoriteNotes
     public void onBindViewHolder(final MyViewHolder holder, final int position) {
         final Note note = notesList.get(position);
         final Realm mRealm = Realm.getDefaultInstance();
-        holder.fav.setVisibility(View.GONE);
+
 
         if(note.getTitle().length()>30) {
             holder.title.setText(note.getTitle().substring(0,30)+"...");
@@ -79,24 +80,19 @@ public class FavoriteNotesListAdapter extends RecyclerView.Adapter<FavoriteNotes
             holder.content.setText(note.getContent());
         }
         holder.date.setText(note.getDateCreated());
-        holder.btnDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mRealm.executeTransaction(new Realm.Transaction() {
-                    @Override
-                    public void execute(Realm realm) {
-                        notesList.remove(note);
-                        note.deleteFromRealm();
-                        notifyItemRemoved(position);
-                        notifyItemRangeChanged(position,notesList.size());
-                    }
-                });
-            }
-        });
+
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN){
+                    Pair<View, String> p1 = Pair.create((View)holder.cardView, "card");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation(activity,p1);
+                    activity.startActivity(new Intent(context, EditNoteActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK).putExtra("id",note.getId()), options.toBundle());
+                }else {
                     context.startActivity(new Intent(context, EditNoteActivity.class).putExtra("id", note.getId()));
+
+                }
             }
         });
         note.addChangeListener(new RealmChangeListener<Note>() {

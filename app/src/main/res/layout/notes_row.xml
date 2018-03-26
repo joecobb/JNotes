@@ -31,20 +31,6 @@
                 android:text="Title"
                 android:textStyle="bold" />
 
-            <ImageView
-                android:id="@+id/btn_delete"
-                android:layout_width="39dp"
-                android:layout_height="39dp"
-                android:layout_alignParentEnd="true"
-                android:paddingLeft="8dp"
-                android:paddingTop="1dp"
-
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/date"
-                android:src="@drawable/ic_delete_forever"
-
-
-                android:text="Delete" />
 
 
 
@@ -54,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:maxLines="2"
                 android:transitionName="content"
-                android:layout_marginRight="100dp"
+
                 android:layout_below="@+id/title"
                 android:layout_marginTop="10dp"
                 android:text="textview would end up looking like this : src: https://i.stack.imgur.com/ptjuw.png ... Now, the solution for how to display this is all over stackoverflow but surprisingly mixed up. Eg: Most ... We all know how that story will end up." />
@@ -67,26 +53,8 @@
                 android:layout_alignParentRight="true"
                 android:layout_alignParentTop="true"
                 android:text="2 days ago" />
-            <CheckBox android:id="@+id/star"
-                style="?android:attr/starStyle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"
-                android:padding="0dp"
-                android:layout_toLeftOf="@id/btn_delete"
-                android:layout_below="@id/date"
-                />
-            <!--<RatingBar-->
-                <!--android:id="@+id/ratingBar"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_centerVertical="true"-->
-                <!--android:layout_toLeftOf="@+id/btn_delete"-->
-                <!--android:layout_toStartOf="@+id/btn_delete"-->
-                <!--android:numStars="1"-->
-                <!--android:padding="0dp"-->
-                <!--android:scaleX="0.5"-->
-                <!--android:scaleY="0.5" />-->
+
+
 
         </RelativeLayout>
     </android.support.v7.widget.CardView>
