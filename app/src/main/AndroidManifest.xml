@@ -20,8 +20,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddNoteActivity" />
-        <activity android:name=".EditNoteActivity" />
+        <activity android:name=".AddNoteActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:theme="@style/noToolBar"
+            />
+        <activity android:name=".EditNoteActivity"
+            android:windowSoftInputMode="stateVisible|adjustResize"
+            android:theme="@style/noToolBar"
+            />
         <activity
             android:name=".FavouritesActivity"
             android:theme="@style/noToolBar"></activity>

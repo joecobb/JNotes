@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private MaterialSearchView searchView;
     private MenuItem mRestore;
     private MenuItem mBackup;
+    private String searchQuery="";
     private final String TAG = "MyBackups";
 
 
@@ -83,6 +84,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 Log.d("query##", query);
+                searchQuery = query;
                 returnResults(query);
                 return false;
             }
@@ -91,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 //Do some magic
                 returnResults(newText);
+                searchQuery = newText;
                 return false;
             }
         });
@@ -165,6 +168,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
             prepareNotesData();
+        if (searchView.isSearchOpen()) {
+            searchView.closeSearch();
+        }
+
     }
     @Override
     public void onBackPressed() {
@@ -248,4 +255,6 @@ public class MainActivity extends AppCompatActivity {
 
         return realm.getPath();
     }
+
+
 }
